@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Item from "./Item"
 export interface Book {
     id: number;
@@ -11,9 +12,10 @@ export interface Book {
     autor_id: number;
 }
 interface ListItemsProps {
-    data: Book[];
+    Books: Book[];
 }
-function ListItems({ data }: ListItemsProps){
+function ListItems({ Books }: ListItemsProps){
+    const [data,setData]= useState(Books);
     return data.map((book:Book)=>
         <>
             <Item data={book}></Item>

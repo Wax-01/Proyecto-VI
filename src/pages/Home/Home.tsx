@@ -6,18 +6,17 @@ import ListItems, { Book } from "../../components/listItems"
 
 function Home (){
     const context=useContext(ItemContext);
-    const [books,setBooks]= useState <Book[]>([]);
     const [loading, setLoading] = useState(true);
-
+    
     useEffect(() => {
     async function loadBooks() {
         const data = await context.getBook();
 
         if (data) {
-            setBooks(data);
+            context.updateData(data);
             setLoading(false);
-        }
-    }
+        };
+    };
 
     loadBooks();
 }, []);
@@ -29,9 +28,9 @@ function Home (){
         <div className="home">
             <div id="books">
                 {loading ?
-                    (<>Cargando</>)
+                    (<>Cargando...</>)
                     :(
-                    <ListItems data={books}></ListItems>
+                    <ListItems Books={context.data}></ListItems>
                     )}
 
             </div>
