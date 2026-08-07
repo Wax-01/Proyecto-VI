@@ -1,18 +1,74 @@
+import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../context/authcontext";
+import styles from "./NavBar.module.css";
 
-function NavBar (){
+/**
+ * Header principal de Bhook.
+ * Contiene el logo/wordmark, y los botones de navegación (Login/Logout).
+ * Diseño: estilo editorial con fondo superficie limpio.
+ */
+function NavBar() {
     const navigate = useNavigate();
+    const { user, logout } = useContext(AuthContext);
+
     function goToLogin() {
         navigate("/login");
-        console.log("Entró")
     }
-    return(
-        <nav>
-            <b>Bhook    </b>
-            <button>Menu</button>
-            <button onClick={goToLogin}>Login</button>
-            <button>Recomendaciones</button>
-        </nav>
-    )
+
+    function goToHome() {
+        navigate("/home");
+    }
+
+    async function handleLogout() {
+        await logout();
+        navigate("/login");
+    }
+
+    return (
+        <header className={styles.header}>
+            <div className={styles.inner}>
+                {/* Logo / Wordmark */}
+                <button className={styles.logo} onClick={goToHome} id="nav-logo">
+                    Bhook
+                </button>
+
+                {/* Navegación derecha */}
+                <nav className={styles.nav}>
+                    <button
+                        className={styles.navLink}
+                        onClick={goToHome}
+                        id="nav-catalogo"
+                    >
+                        Catálogo
+                    </button>
+
+                    {user ? (
+                        <>
+                            <span className={styles.greeting}>
+                                Hola, {user.nombre || user.email || "Lector"}
+                            </span>
+                            <button
+                                className={styles.btnSecondary}
+                                onClick={handleLogout}
+                                id="nav-logout"
+                            >
+                                Cerrar sesión
+                            </button>
+                        </>
+                    ) : (
+                        <button
+                            className={styles.btnPrimary}
+                            onClick={goToLogin}
+                            id="nav-login"
+                        >
+                            Iniciar sesión
+                        </button>
+                    )}
+                </nav>
+            </div>
+        </header>
+    );
 }
-export default NavBar
+
+export default NavBar;

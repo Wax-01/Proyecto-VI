@@ -4,7 +4,6 @@ interface ItemProps {
 }
 
 function Item({data}:ItemProps) {
-    console.log(data);
     return ( 
         <div className="item">
             <img src={data.imagen_url}/>

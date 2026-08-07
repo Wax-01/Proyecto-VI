@@ -1,0 +1,146 @@
+/* BookCard.module.css — Tarjeta de libro estilo editorial */
+
+.card {
+    background-color: var(--color-surface);
+    border: var(--border-width) solid var(--color-border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: box-shadow var(--transition), transform var(--transition);
+    animation: fadeInUp 0.4s ease both;
+}
+
+.card:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-4px);
+}
+
+/* Contenedor de la portada */
+.imageWrapper {
+    width: 100%;
+    aspect-ratio: 2 / 3;
+    overflow: hidden;
+    background-color: var(--color-surface-alt);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.card:hover .image {
+    transform: scale(1.03);
+}
+
+/* Placeholder cuando no hay imagen */
+.placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    font-size: 48px;
+    color: var(--color-text-muted);
+    background-color: var(--color-surface-alt);
+}
+
+/* Información del libro */
+.info {
+    padding: var(--space-4);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    flex: 1;
+}
+
+.title {
+    font-family: var(--font-display);
+    font-size: var(--fs-body);
+    font-weight: var(--fw-display);
+    line-height: var(--lh-h4);
+    color: var(--color-text);
+    /* Limitar a 2 líneas */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.author {
+    font-size: var(--fs-body-sm);
+    color: var(--color-text-muted);
+    font-weight: var(--fw-regular);
+}
+
+/* Metadatos (páginas, idioma) */
+.meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+}
+
+.metaItem {
+    font-size: var(--fs-caption);
+    color: var(--color-text-muted);
+    background-color: var(--color-surface-alt);
+    padding: 2px var(--space-2);
+    border-radius: var(--radius-sm);
+}
+
+/* Rating */
+.rating {
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+    font-size: var(--fs-body-sm);
+    font-weight: var(--fw-medium);
+    color: var(--color-secondary);
+}
+
+.star {
+    font-size: 16px;
+}
+
+/* Footer: precio + botón */
+.footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: auto;
+    padding-top: var(--space-3);
+    border-top: var(--border-width) solid var(--color-border);
+}
+
+.price {
+    font-size: var(--fs-h4);
+    font-weight: var(--fw-semibold);
+    color: var(--color-text);
+}
+
+.btnAdd {
+    height: var(--control-sm);
+    padding: 0 var(--space-4);
+    font-size: var(--fs-body-sm);
+    font-weight: var(--fw-semibold);
+    color: var(--color-on-primary);
+    background-color: var(--color-primary);
+    border: none;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: background-color var(--transition), transform var(--transition);
+}
+
+.btnAdd:hover {
+    background-color: var(--color-primary-hover);
+    transform: translateY(-1px);
+}
+
+.btnAdd:active {
+    transform: translateY(0);
+}
