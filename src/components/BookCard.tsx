@@ -1,4 +1,7 @@
+import { useContext } from "react";
+import { Link } from "react-router-dom";
 import { Book } from "../context/ItemContext";
+import { CartContext } from "../context/CartContext";
 import styles from "./BookCard.module.css";
 
 interface BookCardProps {
@@ -7,10 +10,12 @@ interface BookCardProps {
 
 /**
  * Tarjeta de libro para el catálogo.
- * Muestra: portada, título, autor, precio y botón CTA.
+ * Muestra: portada, título, autor, precio y control de compra.
  * Diseño: Modern Editorial con hover suave y sombra.
  */
 function BookCard({ book }: BookCardProps) {
+    const { items, addToCart, updateQty } = useContext(CartContext);
+
     // Formatear el precio en COP: $ 48.900
     const precioFormateado = new Intl.NumberFormat("es-CO", {
         style: "currency",
@@ -22,10 +27,13 @@ function BookCard({ book }: BookCardProps) {
     // Nombre del autor (viene del JOIN)
     const autorNombre = book.autor?.nombre || "Autor desconocido";
 
+    const cartItem = items.find((i) => i.book.id === book.id);
+    const cantidadEnCarrito = cartItem?.cantidad ?? 0;
+
     return (
         <article className={styles.card} id={`book-card-${book.id}`}>
-            {/* Portada del libro */}
-            <div className={styles.imageWrapper}>
+            {/* Portada del libro — enlaza a la ficha de detalle */}
+            <Link to={`/libro/${book.id}`} className={styles.imageWrapper}>
                 {book.imagen_url ? (
                     <img
                         src={book.imagen_url}
@@ -35,14 +43,16 @@ function BookCard({ book }: BookCardProps) {
                     />
                 ) : (
                     <div className={styles.placeholder}>
-                        <span>📖</span>
+                        <span>Sin portada</span>
                     </div>
                 )}
-            </div>
+            </Link>
 
             {/* Información del libro */}
             <div className={styles.info}>
-                <h3 className={styles.title}>{book.nombre}</h3>
+                <Link to={`/libro/${book.id}`}>
+                    <h3 className={styles.title}>{book.nombre}</h3>
+                </Link>
                 <p className={styles.author}>{autorNombre}</p>
 
                 {/* Metadatos opcionales */}
@@ -63,12 +73,36 @@ function BookCard({ book }: BookCardProps) {
                     </div>
                 )}
 
-                {/* Precio y CTA */}
+                {/* Precio y control de compra */}
                 <div className={styles.footer}>
                     <span className={styles.price}>{precioFormateado}</span>
-                    <button className={styles.btnAdd} id={`btn-add-${book.id}`}>
-                        Añadir
-                    </button>
+                    {cantidadEnCarrito === 0 ? (
+                        <button
+                            className={styles.btnAdd}
+                            id={`btn-add-${book.id}`}
+                            onClick={() => addToCart(book)}
+                        >
+                            Añadir
+                        </button>
+                    ) : (
+                        <div className={styles.stepper} id={`stepper-${book.id}`}>
+                            <button
+                                className={styles.stepperBtn}
+                                onClick={() => updateQty(book.id, cantidadEnCarrito - 1)}
+                                aria-label="Quitar una unidad"
+                            >
+                                −
+                            </button>
+                            <span className={styles.stepperValue}>{cantidadEnCarrito}</span>
+                            <button
+                                className={styles.stepperBtn}
+                                onClick={() => updateQty(book.id, cantidadEnCarrito + 1)}
+                                aria-label="Añadir una unidad más"
+                            >
+                                +
+                            </button>
+                        </div>
+                    )}
                 </div>
             </div>
         </article>

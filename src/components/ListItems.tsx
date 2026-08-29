@@ -14,7 +14,6 @@ function BookGrid({ books }: BookGridProps) {
     if (books.length === 0) {
         return (
             <div className={styles.empty}>
-                <span className={styles.emptyIcon}>📚</span>
                 <p className={styles.emptyText}>No se encontraron libros</p>
                 <p className={styles.emptyHint}>
                     Intenta con otro término de búsqueda o presiona el botón de actualizar.

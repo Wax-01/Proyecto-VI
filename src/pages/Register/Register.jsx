@@ -1,13 +1,14 @@
 import { useContext, useState } from "react";
-import styles from "./Login.module.css";
+import styles from "../Login/Login.module.css";
 import { AuthContext } from "../../context/authcontext";
 import { useNavigate, Link } from "react-router-dom";
 
 /**
- * Página de inicio de sesión — Bhook.
- * Layout editorial: panel decorativo izquierdo + formulario derecho.
+ * Página de registro — Bhook.
+ * Comparte el layout editorial de Login (mismo módulo de estilos).
  */
-function Login() {
+function Register() {
+    const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
@@ -15,56 +16,74 @@ function Login() {
     const context = useContext(AuthContext);
     const navigate = useNavigate();
 
-    async function handleLogin(e) {
+    async function handleRegister(e) {
         e.preventDefault();
+        const cleanUsername = username.trim();
         const cleanEmail = email.trim();
         const cleanPassword = password.trim();
 
-        if (!cleanEmail || !cleanPassword) {
+        if (!cleanUsername || !cleanEmail || !cleanPassword) {
             setWarning("Por favor completa todos los campos.");
+            return;
+        }
+        if (cleanPassword.length < 6) {
+            setWarning("La contraseña debe tener al menos 6 caracteres.");
             return;
         }
 
         setWarning("");
         setLoading(true);
-        const success = await context.login(cleanEmail, cleanPassword);
+        const result = await context.register(cleanEmail, cleanPassword, cleanUsername);
         setLoading(false);
 
-        if (success) {
-            navigate("/home");
-        } else {
-            setWarning("Credenciales incorrectas. Intenta de nuevo.");
+        if (!result.success) {
+            setWarning(result.error || "No se pudo crear la cuenta. Intenta de nuevo.");
+            return;
         }
+
+        navigate("/login");
     }
 
     return (
         <div className={styles.page}>
-            {/* Panel decorativo izquierdo */}
             <div className={styles.brandPanel}>
                 <div className={styles.brandContent}>
                     <h1 className={styles.brandName}>Bhook</h1>
                     <p className={styles.brandTagline}>
-                        Tu próxima gran historia te espera.
+                        Únete y empieza a coleccionar puntos con cada lectura.
                     </p>
                 </div>
             </div>
 
-            {/* Panel del formulario */}
             <div className={styles.formPanel}>
-                <form className={styles.form} onSubmit={handleLogin} id="login-form">
-                    <h2 className={styles.formTitle}>Iniciar sesión</h2>
+                <form className={styles.form} onSubmit={handleRegister} id="register-form">
+                    <h2 className={styles.formTitle}>Crear cuenta</h2>
                     <p className={styles.formSubtitle}>
-                        Accede a tu cuenta para explorar el catálogo.
+                        Regístrate para guardar tu carrito y ganar puntos.
                     </p>
 
-                    {/* Campo Email */}
                     <div className={styles.field}>
-                        <label htmlFor="login-email" className={styles.label}>
+                        <label htmlFor="register-username" className={styles.label}>
+                            Nombre de usuario
+                        </label>
+                        <input
+                            type="text"
+                            id="register-username"
+                            className={styles.input}
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)}
+                            placeholder="lector_curioso"
+                            autoComplete="username"
+                        />
+                    </div>
+
+                    <div className={styles.field}>
+                        <label htmlFor="register-email" className={styles.label}>
                             Correo electrónico
                         </label>
                         <input
                             type="email"
-                            id="login-email"
+                            id="register-email"
                             className={styles.input}
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
@@ -73,45 +92,38 @@ function Login() {
                         />
                     </div>
 
-                    {/* Campo Contraseña */}
                     <div className={styles.field}>
-                        <label htmlFor="login-password" className={styles.label}>
+                        <label htmlFor="register-password" className={styles.label}>
                             Contraseña
                         </label>
                         <input
                             type="password"
-                            id="login-password"
+                            id="register-password"
                             className={styles.input}
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             placeholder="••••••••"
-                            autoComplete="current-password"
+                            autoComplete="new-password"
                         />
                     </div>
 
-                    {/* Mensaje de error */}
                     {warning && (
                         <div className={styles.alert} role="alert">
                             {warning}
                         </div>
                     )}
 
-                    {/* Botón de submit */}
                     <button
                         type="submit"
                         className={styles.btnSubmit}
                         disabled={loading}
-                        id="btn-login"
+                        id="btn-register"
                     >
-                        {loading ? (
-                            <span className={styles.spinner}></span>
-                        ) : (
-                            "Acceder"
-                        )}
+                        {loading ? <span className={styles.spinner}></span> : "Crear cuenta"}
                     </button>
 
                     <p className={styles.formSubtitle} style={{ marginTop: 0 }}>
-                        ¿Aún no tienes cuenta? <Link to="/register" style={{ color: "var(--color-primary)", fontWeight: 600 }}>Regístrate</Link>
+                        ¿Ya tienes cuenta? <Link to="/login" style={{ color: "var(--color-primary)", fontWeight: 600 }}>Inicia sesión</Link>
                     </p>
                 </form>
             </div>
@@ -119,4 +131,4 @@ function Login() {
     );
 }
 
-export default Login;
+export default Register;

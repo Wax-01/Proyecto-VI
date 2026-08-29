@@ -6,7 +6,8 @@ interface AuthContextProps {
     isLoading: boolean,
     login: (email: string, password: string) => Promise<any>,
     register: (email: string, password: string, username:string) => Promise<any>,
-    logout: () => void
+    logout: () => void,
+    addPoints: (amount: number) => void
 }
 
 export const AuthContext = createContext ({} as AuthContextProps)
@@ -39,11 +40,27 @@ const login = async (email: string, password: string) => {
 
     console.log("Login correcto, obteniendo perfil", { userId: data.user.id });
 
-    const { data: profileData, error: profileError } = await supabase
-      .from('profiles')
+    let { data: profileData, error: profileError } = await supabase
+      .from('perfiles')
       .select('*')
       .eq('id', data.user.id)
       .single();
+
+    // Si el perfil aún no existe (p.ej. registro con confirmación de email
+    // pendiente en el momento del signUp), se crea ahora que ya hay sesión.
+    if (profileError) {
+      const nombreFallback = (data.user.user_metadata as any)?.name ?? data.user.email?.split('@')[0];
+      const { data: nuevoPerfil, error: creacionError } = await supabase
+        .from('perfiles')
+        .insert([{ id: data.user.id, Email: data.user.email, nombre: nombreFallback, rol: 'usuario' }])
+        .select('*')
+        .single();
+
+      if (!creacionError && nuevoPerfil) {
+        profileData = nuevoPerfil;
+        profileError = null as any;
+      }
+    }
 
     if (profileError) {
       console.warn('Profile fetch error:', profileError);
@@ -67,27 +84,35 @@ const login = async (email: string, password: string) => {
 
         const register = async (email: string, password: string, username: string) => {
           try {
-            const { data, error } = await supabase.auth.signUp({ email, password });
+            const { data, error } = await supabase.auth.signUp({
+              email,
+              password,
+              options: { data: { name: username } },
+            });
             if (error) {
               return { success: false, error: error.message };
             }
 
-            // Si el usuario se creó correctamente, crea el perfil
             const user = data.user;
-            if (user) {
-              const { error: profileError } = await supabase
-                .from("perfiles")
-                .insert([
-                  {
-                    id: user.id, 
-                    Email: user.email,
-                    nombre: username,
-                    rol: "usuario"
-                  },
-                ]);
-              if (profileError) {
-                return { success: false, error: profileError.message };
-              }
+
+            // Sin sesión activa (confirmación de correo pendiente): el perfil
+            // se crea automáticamente en el primer login (ver login()).
+            if (!user || !data.session) {
+              return { success: true, needsEmailConfirmation: !data.session };
+            }
+
+            const { error: profileError } = await supabase
+              .from("perfiles")
+              .insert([
+                {
+                  id: user.id,
+                  Email: user.email,
+                  nombre: username,
+                  rol: "usuario",
+                },
+              ]);
+            if (profileError) {
+              return { success: false, error: profileError.message };
             }
 
             return { success: true };
@@ -97,7 +122,12 @@ const login = async (email: string, password: string) => {
     }
 
     const logout = async () => {
+        await supabase.auth.signOut();
         setUser(null);
+    }
+
+    const addPoints = (amount: number) => {
+        setUser((prev: any) => prev ? { ...prev, puntos: (prev.puntos ?? 0) + amount } : prev);
     }
 
     useEffect(() => {
@@ -108,7 +138,7 @@ const login = async (email: string, password: string) => {
         const authUser = data?.user ?? null;
         if (authUser) {
           const { data: profileData, error: profileError } = await supabase
-            .from('profiles')
+            .from('perfiles')
             .select('*')
             .eq('id', authUser.id)
             .single();
@@ -138,7 +168,7 @@ const login = async (email: string, password: string) => {
       }
       try {
         const { data: profileData, error: profileError } = await supabase
-          .from('profiles')
+          .from('perfiles')
           .select('*')
           .eq('id', authUser.id)
           .single();
@@ -162,6 +192,7 @@ const login = async (email: string, password: string) => {
             login,
             register,
             logout,
+            addPoints,
         }}
     >
         {children}

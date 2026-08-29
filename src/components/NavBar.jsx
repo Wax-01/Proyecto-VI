@@ -5,7 +5,9 @@ import styles from "./NavBar.module.css";
 
 /**
  * Header principal de Bhook.
- * Contiene el logo/wordmark, y los botones de navegación (Login/Logout).
+ * Contiene el logo/wordmark, los puntos del usuario y los botones
+ * de navegación (Login/Logout). El carrito vive en un botón flotante
+ * aparte (ver CartFab).
  * Diseño: estilo editorial con fondo superficie limpio.
  */
 function NavBar() {
@@ -47,6 +49,9 @@ function NavBar() {
                         <>
                             <span className={styles.greeting}>
                                 Hola, {user.nombre || user.email || "Lector"}
+                            </span>
+                            <span className={styles.points} title="Tus puntos">
+                                {user.puntos ?? 0} pts
                             </span>
                             <button
                                 className={styles.btnSecondary}

@@ -1,0 +1,250 @@
+/* BookDetail.module.css — Ficha de detalle de libro, estilo editorial */
+
+.page {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--color-bg);
+}
+
+.main {
+    flex: 1;
+    max-width: var(--max-width);
+    width: 100%;
+    margin: 0 auto;
+    padding: var(--space-6) var(--gutter) var(--space-8);
+}
+
+.statusText {
+    color: var(--color-text-muted);
+    padding: var(--space-8) 0;
+    text-align: center;
+}
+
+.backLink {
+    display: inline-block;
+    font-size: var(--fs-body-sm);
+    font-weight: var(--fw-medium);
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-6);
+    transition: color var(--transition);
+}
+
+.backLink:hover {
+    color: var(--color-primary);
+}
+
+/* ---- Layout principal: portada + info ---- */
+.layout {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    gap: var(--space-7);
+    align-items: start;
+}
+
+.imageWrapper {
+    width: 100%;
+    aspect-ratio: 2 / 3;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    background-color: var(--color-surface-alt);
+    border: var(--border-width) solid var(--color-border);
+    box-shadow: var(--shadow-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.placeholder {
+    color: var(--color-text-muted);
+    font-size: var(--fs-body-sm);
+}
+
+.info {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+}
+
+.title {
+    font-family: var(--font-display);
+    font-size: var(--fs-h1);
+    font-weight: 700;
+    line-height: var(--lh-h2);
+    color: var(--color-text);
+}
+
+.author {
+    font-size: var(--fs-h4);
+    color: var(--color-text-muted);
+}
+
+.rating {
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+    font-size: var(--fs-body);
+    font-weight: var(--fw-medium);
+    color: var(--color-secondary);
+}
+
+.star {
+    font-size: 20px;
+}
+
+/* ---- Grilla de datos técnicos ---- */
+.dataGrid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-4);
+    margin-top: var(--space-3);
+    padding: var(--space-4);
+    background-color: var(--color-surface);
+    border: var(--border-width) solid var(--color-border);
+    border-radius: var(--radius-md);
+}
+
+.dataItem {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.dataLabel {
+    font-size: var(--fs-caption);
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.dataValue {
+    font-size: var(--fs-body-sm);
+    font-weight: var(--fw-medium);
+    color: var(--color-text);
+}
+
+/* ---- Caja de compra ---- */
+.purchaseBox {
+    display: flex;
+    align-items: center;
+    gap: var(--space-5);
+    margin-top: var(--space-4);
+    padding-top: var(--space-5);
+    border-top: var(--border-width) solid var(--color-border);
+}
+
+.price {
+    font-family: var(--font-display);
+    font-size: var(--fs-h2);
+    font-weight: var(--fw-semibold);
+    color: var(--color-text);
+}
+
+.btnAdd {
+    height: var(--control-lg);
+    padding: 0 var(--space-6);
+    font-size: var(--fs-body);
+    font-weight: var(--fw-semibold);
+    color: var(--color-on-primary);
+    background-color: var(--color-primary);
+    border-radius: var(--radius-sm);
+    transition: background-color var(--transition), transform var(--transition);
+}
+
+.btnAdd:hover {
+    background-color: var(--color-primary-hover);
+    transform: translateY(-1px);
+}
+
+.stepper {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    height: var(--control-lg);
+    padding: 0 var(--space-4);
+    border: var(--border-width) solid var(--color-primary);
+    border-radius: var(--radius-sm);
+}
+
+.stepperBtn {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-primary);
+    font-weight: var(--fw-semibold);
+    font-size: 16px;
+    border-radius: 4px;
+}
+
+.stepperBtn:hover {
+    background-color: var(--color-surface-alt);
+}
+
+.stepperValue {
+    font-size: var(--fs-body);
+    font-weight: var(--fw-semibold);
+    color: var(--color-text);
+    min-width: 18px;
+    text-align: center;
+}
+
+.btnPrimary {
+    height: var(--control-lg);
+    padding: 0 var(--space-6);
+    font-size: var(--fs-body);
+    font-weight: var(--fw-semibold);
+    color: var(--color-on-primary);
+    background-color: var(--color-primary);
+    border-radius: var(--radius-sm);
+    transition: background-color var(--transition), transform var(--transition);
+}
+
+.btnPrimary:hover {
+    background-color: var(--color-primary-hover);
+    transform: translateY(-1px);
+}
+
+/* ---- Descripción ---- */
+.descriptionSection {
+    max-width: 760px;
+    margin-top: var(--space-8);
+    padding-top: var(--space-6);
+    border-top: var(--border-width) solid var(--color-border);
+}
+
+.descriptionTitle {
+    font-family: var(--font-display);
+    font-size: var(--fs-h3);
+    font-weight: var(--fw-display);
+    margin-bottom: var(--space-4);
+}
+
+.descriptionText {
+    font-size: var(--fs-body);
+    line-height: var(--lh-body);
+    color: var(--color-text);
+    white-space: pre-line;
+}
+
+@media (max-width: 760px) {
+    .layout {
+        grid-template-columns: 1fr;
+    }
+
+    .imageWrapper {
+        max-width: 320px;
+        margin: 0 auto;
+    }
+
+    .dataGrid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}

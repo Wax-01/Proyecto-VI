@@ -1,0 +1,43 @@
+/* CartFab.module.css — Botón flotante de carrito */
+
+.fab {
+    position: fixed;
+    right: var(--space-6);
+    bottom: var(--space-6);
+    z-index: 150;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    color: var(--color-on-primary);
+    background-color: var(--color-primary);
+    box-shadow: var(--shadow-md);
+    transition: background-color var(--transition), transform var(--transition);
+}
+
+.fab:hover {
+    background-color: var(--color-primary-hover);
+    transform: translateY(-2px);
+}
+
+.badge {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    min-width: 22px;
+    height: 22px;
+    padding: 0 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: var(--fw-semibold);
+    color: var(--color-on-primary);
+    background-color: var(--color-secondary);
+    border: 2px solid var(--color-bg);
+    border-radius: 999px;
+    line-height: 1;
+}
