@@ -4,6 +4,7 @@ import Register from "../pages/Register/Register";
 import Home from "../pages/Home/Home";
 import CartPage from "../pages/Cart/CartPage";
 import BookDetail from "../pages/BookDetail/BookDetail";
+import AdminBooks from "../pages/Admin/AdminBooks";
 import CartDrawer from "../components/CartDrawer";
 import CartFab from "../components/CartFab";
 
@@ -24,6 +25,7 @@ function AppRouter() {
                 <Route path="/register" element={<Register />} />
                 <Route path="/carrito" element={<CartPage />} />
                 <Route path="/libro/:id" element={<BookDetail />} />
+                <Route path="/admin/libros" element={<AdminBooks />} />
             </Routes>
             <CartDrawer />
             <CartFab />

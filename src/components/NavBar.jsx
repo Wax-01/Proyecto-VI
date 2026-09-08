@@ -47,6 +47,15 @@ function NavBar() {
 
                     {user ? (
                         <>
+                            {user.rol === "admin" && (
+                                <button
+                                    className={styles.navLink}
+                                    onClick={() => navigate("/admin/libros")}
+                                    id="nav-admin"
+                                >
+                                    Editar libros
+                                </button>
+                            )}
                             <span className={styles.greeting}>
                                 Hola, {user.nombre || user.email || "Lector"}
                             </span>
