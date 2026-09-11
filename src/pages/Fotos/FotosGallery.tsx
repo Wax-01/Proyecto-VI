@@ -18,7 +18,7 @@ interface RecuerdoConUrl extends Recuerdo {
  * por eso se piden URLs firmadas en vez de usar URLs públicas.
  */
 function FotosGallery() {
-    const { user } = useContext(AuthContext);
+    const { user, isLoading: authLoading } = useContext(AuthContext);
     const navigate = useNavigate();
     const isAdmin = user?.rol === "admin";
 
@@ -87,6 +87,10 @@ function FotosGallery() {
         setAudioUrl(null);
     }
 
+    // Espera a que termine la comprobación inicial de sesión antes de
+    // decidir si redirige: si no, un refresh en /fotos manda al login a
+    // alguien que sí tiene sesión, porque `user` arranca en null.
+    if (authLoading) return null;
     if (!user) return <Navigate to="/login" replace />;
 
     return (
@@ -119,12 +123,15 @@ function FotosGallery() {
                                 key={item.id}
                                 className={styles.thumb}
                                 onClick={() => abrir(item)}
-                                aria-label="Ver foto"
+                                aria-label={item.titulo ? `Ver foto: ${item.titulo}` : "Ver foto"}
                             >
                                 {item.imagenUrl ? (
                                     <img src={item.imagenUrl} alt="" className={styles.thumbImage} />
                                 ) : (
                                     <span className={styles.thumbPlaceholder}>Sin imagen</span>
+                                )}
+                                {item.titulo && (
+                                    <span className={styles.thumbTitle}>{item.titulo}</span>
                                 )}
                             </button>
                         ))}
@@ -144,8 +151,13 @@ function FotosGallery() {
                         )}
 
                         <div className={styles.modalBody}>
+                            {selected.titulo && (
+                                <h2 className={styles.modalTitle}>{selected.titulo}</h2>
+                            )}
+
                             <span className={styles.modalDate}>
                                 {new Date(selected.created_at).toLocaleString("es-CO")}
+                                {selected.autor_nombre && ` · por ${selected.autor_nombre}`}
                             </span>
 
                             {selected.texto && <p className={styles.modalText}>{selected.texto}</p>}

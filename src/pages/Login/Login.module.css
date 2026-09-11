@@ -181,3 +181,67 @@
 @keyframes spin {
     to { transform: rotate(360deg); }
 }
+
+/* ---- Responsive: tablet/móvil ---- */
+@media (max-width: 760px) {
+    .page {
+        flex-direction: column;
+        min-height: 100dvh;
+    }
+
+    .brandPanel {
+        flex: 0 0 auto;
+        border-right: none;
+        border-bottom: var(--border-width) solid var(--color-border);
+        padding: var(--space-6) var(--space-5);
+        min-height: 0;
+    }
+
+    .brandContent {
+        padding: 0;
+    }
+
+    .brandName {
+        font-size: 40px;
+        margin-bottom: var(--space-2);
+    }
+
+    .brandTagline {
+        max-width: none;
+        font-size: var(--fs-body-sm);
+    }
+
+    .brandDeco {
+        display: none;
+    }
+
+    .formPanel {
+        flex: 1;
+        padding: var(--space-5);
+        align-items: flex-start;
+    }
+
+    .form {
+        max-width: none;
+        gap: var(--space-4);
+    }
+}
+
+/* ---- Responsive: móvil pequeño ---- */
+@media (max-width: 400px) {
+    .brandPanel {
+        padding: var(--space-5) var(--space-4);
+    }
+
+    .brandName {
+        font-size: 32px;
+    }
+
+    .formPanel {
+        padding: var(--space-4);
+    }
+
+    .formTitle {
+        font-size: var(--fs-h3, 22px);
+    }
+}

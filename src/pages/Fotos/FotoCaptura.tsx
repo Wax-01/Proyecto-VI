@@ -2,8 +2,9 @@ import { useContext, useRef, useState } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/authcontext";
 import { supabase } from "../../utils/Supabase";
+import { withTimeout } from "../../utils/withTimeout";
 import { RECUERDOS_BUCKET } from "./Fotos.types";
-import { ArrowLeftIcon, CameraIcon, MicIcon, SquareIcon } from "../../components/icons";
+import { ArrowLeftIcon, CameraIcon, CheckIcon, MicIcon, SquareIcon } from "../../components/icons";
 import styles from "./Fotos.module.css";
 
 const EXT_BY_MIME: Record<string, string> = {
@@ -28,7 +29,7 @@ function extFromMime(mime: string, fallback: string): string {
  * con MediaRecorder. Solo accesible para admins.
  */
 function FotoCaptura() {
-    const { user } = useContext(AuthContext);
+    const { user, isLoading: authLoading } = useContext(AuthContext);
     const navigate = useNavigate();
 
     const fileInputRef = useRef<HTMLInputElement>(null);
@@ -37,6 +38,7 @@ function FotoCaptura() {
 
     const [photoFile, setPhotoFile] = useState<File | null>(null);
     const [photoPreview, setPhotoPreview] = useState<string | null>(null);
+    const [titulo, setTitulo] = useState("");
     const [texto, setTexto] = useState("");
     const [recording, setRecording] = useState(false);
     const [audioBlob, setAudioBlob] = useState<Blob | null>(null);
@@ -45,6 +47,7 @@ function FotoCaptura() {
     const [error, setError] = useState<string | null>(null);
     const [ok, setOk] = useState(false);
 
+    if (authLoading) return null;
     if (!user) return <Navigate to="/login" replace />;
     if (user.rol !== "admin") return <Navigate to="/fotos" replace />;
 
@@ -52,6 +55,8 @@ function FotoCaptura() {
         const file = e.target.files?.[0] ?? null;
         setPhotoFile(file);
         setPhotoPreview(file ? URL.createObjectURL(file) : null);
+        setOk(false);
+        setError(null);
     }
 
     async function startRecording() {
@@ -95,36 +100,48 @@ function FotoCaptura() {
             setError("Toma o selecciona una foto primero.");
             return;
         }
+        if (!titulo.trim()) {
+            setError("Agrega un título a la foto.");
+            return;
+        }
         setSaving(true);
         setError(null);
         setOk(false);
         try {
-            const id = crypto.randomUUID();
-            const imgExt = extFromMime(photoFile.type, "jpg");
-            const imagenPath = `imagenes/${id}.${imgExt}`;
+            await withTimeout(
+                (async () => {
+                    const id = crypto.randomUUID();
+                    const imgExt = extFromMime(photoFile.type, "jpg");
+                    const imagenPath = `imagenes/${id}.${imgExt}`;
 
-            const { error: imgErr } = await supabase.storage
-                .from(RECUERDOS_BUCKET)
-                .upload(imagenPath, photoFile, { contentType: photoFile.type });
-            if (imgErr) throw imgErr;
+                    const { error: imgErr } = await supabase.storage
+                        .from(RECUERDOS_BUCKET)
+                        .upload(imagenPath, photoFile, { contentType: photoFile.type });
+                    if (imgErr) throw imgErr;
 
-            let audioPath: string | null = null;
-            if (audioBlob) {
-                const audioExt = extFromMime(audioBlob.type, "webm");
-                audioPath = `audios/${id}.${audioExt}`;
-                const { error: audioErr } = await supabase.storage
-                    .from(RECUERDOS_BUCKET)
-                    .upload(audioPath, audioBlob, { contentType: audioBlob.type });
-                if (audioErr) throw audioErr;
-            }
+                    let audioPath: string | null = null;
+                    if (audioBlob) {
+                        const audioExt = extFromMime(audioBlob.type, "webm");
+                        audioPath = `audios/${id}.${audioExt}`;
+                        const { error: audioErr } = await supabase.storage
+                            .from(RECUERDOS_BUCKET)
+                            .upload(audioPath, audioBlob, { contentType: audioBlob.type });
+                        if (audioErr) throw audioErr;
+                    }
 
-            const { error: insertErr } = await supabase.from("recuerdos").insert({
-                imagen_path: imagenPath,
-                texto: texto.trim() || null,
-                audio_path: audioPath,
-                autor_id: user.id,
-            });
-            if (insertErr) throw insertErr;
+                    const { error: insertErr } = await supabase.from("recuerdos").insert({
+                        imagen_path: imagenPath,
+                        titulo: titulo.trim(),
+                        texto: texto.trim() || null,
+                        audio_path: audioPath,
+                        autor_id: user.id,
+                        autor_nombre: user.nombre || user.name || user.email || null,
+                    });
+                    if (insertErr) throw insertErr;
+                })(),
+                25000,
+                "La conexión está tardando demasiado. Revisa tu conexión e inténtalo de nuevo."
+            );
 
             setOk(true);
             setTimeout(() => navigate("/fotos"), 600);
@@ -155,7 +172,14 @@ function FotoCaptura() {
                         id="captura-photo-btn"
                     >
                         {photoPreview ? (
-                            <img src={photoPreview} alt="" className={styles.photoPreview} />
+                            <>
+                                <img src={photoPreview} alt="" className={styles.photoPreview} />
+                                {ok && (
+                                    <span className={styles.photoUploadedBadge} title="Foto subida">
+                                        <CheckIcon size={14} /> Subida
+                                    </span>
+                                )}
+                            </>
                         ) : (
                             <>
                                 <CameraIcon size={40} className={styles.photoPickerIcon} />
@@ -173,6 +197,17 @@ function FotoCaptura() {
                         id="captura-photo-input"
                     />
                 </div>
+
+                <label className={styles.field}>
+                    <span>Título</span>
+                    <input
+                        type="text"
+                        value={titulo}
+                        onChange={(e) => setTitulo(e.target.value)}
+                        placeholder="Dale un título a la foto"
+                        id="captura-titulo"
+                    />
+                </label>
 
                 <label className={styles.field}>
                     <span>Texto (opcional)</span>

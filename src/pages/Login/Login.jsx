@@ -2,6 +2,7 @@ import { useContext, useState } from "react";
 import styles from "./Login.module.css";
 import { AuthContext } from "../../context/authcontext";
 import { useNavigate, Link } from "react-router-dom";
+import { withTimeout } from "../../utils/withTimeout";
 
 /**
  * Página de inicio de sesión — Bhook.
@@ -27,13 +28,22 @@ function Login() {
 
         setWarning("");
         setLoading(true);
-        const success = await context.login(cleanEmail, cleanPassword);
-        setLoading(false);
+        try {
+            const success = await withTimeout(
+                context.login(cleanEmail, cleanPassword),
+                15000,
+                "La conexión está tardando demasiado. Intenta de nuevo."
+            );
 
-        if (success) {
-            navigate("/");
-        } else {
-            setWarning("Credenciales incorrectas. Intenta de nuevo.");
+            if (success) {
+                navigate("/");
+            } else {
+                setWarning("Credenciales incorrectas. Intenta de nuevo.");
+            }
+        } catch (err) {
+            setWarning(err instanceof Error ? err.message : "No se pudo iniciar sesión. Intenta de nuevo.");
+        } finally {
+            setLoading(false);
         }
     }
 

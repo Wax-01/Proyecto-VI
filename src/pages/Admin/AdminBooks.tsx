@@ -44,7 +44,7 @@ function bookToForm(book: Book): FormState {
  * entradas duplicadas/erróneas. Solo visible para perfiles con rol "admin".
  */
 function AdminBooks() {
-    const { user } = useContext(AuthContext);
+    const { user, isLoading: authLoading } = useContext(AuthContext);
     const { data, isLoading, fetchBooks } = useContext(ItemContext);
 
     const [search, setSearch] = useState("");
@@ -63,6 +63,7 @@ function AdminBooks() {
         );
     }, [data, search]);
 
+    if (authLoading) return null;
     if (!user) return <Navigate to="/login" replace />;
     if (user.rol !== "admin") return <Navigate to="/bhook" replace />;
 

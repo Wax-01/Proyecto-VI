@@ -97,12 +97,28 @@
 }
 
 .thumb {
+    position: relative;
     aspect-ratio: 1 / 1;
     border-radius: var(--radius-sm);
     overflow: hidden;
     background-color: var(--color-surface-alt);
     border: var(--border-width) solid var(--color-border);
     transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.thumbTitle {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: var(--space-1) var(--space-2);
+    font-size: var(--fs-caption);
+    color: #fff;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.75), transparent);
+    text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .thumb:hover {
@@ -188,6 +204,12 @@
     gap: var(--space-3);
 }
 
+.modalTitle {
+    font-size: var(--fs-h3, 1.25rem);
+    color: var(--color-text);
+    margin: 0;
+}
+
 .modalDate {
     font-size: var(--fs-caption);
     color: var(--color-text-muted);
@@ -261,6 +283,22 @@
     color: var(--color-text-muted);
 }
 
+.photoUploadedBadge {
+    position: absolute;
+    bottom: var(--space-2);
+    right: var(--space-2);
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 10px;
+    border-radius: var(--radius-full, 999px);
+    background-color: var(--color-success, #16a34a);
+    color: #fff;
+    font-size: var(--fs-caption);
+    font-weight: var(--fw-medium);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+}
+
 .hiddenInput {
     display: none;
 }
@@ -273,7 +311,8 @@
     color: var(--color-text-muted);
 }
 
-.field textarea {
+.field textarea,
+.field input[type="text"] {
     min-height: 100px;
     padding: var(--space-3);
     font-size: var(--fs-body-sm);
@@ -287,7 +326,13 @@
     transition: border-color var(--transition), box-shadow var(--transition);
 }
 
-.field textarea:focus {
+.field input[type="text"] {
+    min-height: auto;
+    padding: var(--space-2) var(--space-3);
+}
+
+.field textarea:focus,
+.field input[type="text"]:focus {
     border-color: var(--color-primary);
     box-shadow: 0 0 0 3px var(--color-focus-ring);
 }

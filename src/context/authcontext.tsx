@@ -14,15 +14,17 @@ export const AuthContext = createContext ({} as AuthContextProps)
 export const AuthProvider = ({ children }: any) => {
 
     const [user, setUser] = useState<any | null>(null);
-    const [isLoading, setIsLoading] = useState(false);
+    // Empieza en true: hasta que init() (más abajo) resuelva, no sabemos si
+    // hay sesión o no. Las rutas protegidas deben esperar a que esto sea
+    // false antes de decidir si redirigen a /login — si no, un refresh de
+    // página redirige a un usuario ya logueado porque `user` todavía es
+    // null en el primer render.
+    const [isLoading, setIsLoading] = useState(true);
 
 const login = async (email: string, password: string) => {
   setIsLoading(true);
   try {
-    console.log("Entró - login start", { email });
-
     const res = await supabase.auth.signInWithPassword({ email, password });
-    console.log("signInWithPassword response:", JSON.stringify(res, null, 2));
 
     const { data, error } = res;
 
@@ -37,8 +39,6 @@ const login = async (email: string, password: string) => {
       setIsLoading(false);
       return false;
     }
-
-    console.log("Login correcto, obteniendo perfil", { userId: data.user.id });
 
     let { data: profileData, error: profileError } = await supabase
       .from('perfiles')
@@ -154,6 +154,8 @@ const login = async (email: string, password: string) => {
         }
       } catch (e) {
         console.error('Init auth error', e);
+      } finally {
+        setIsLoading(false);
       }
     };
 
