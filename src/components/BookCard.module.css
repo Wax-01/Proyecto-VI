@@ -12,8 +12,9 @@
 }
 
 .card:hover {
-    box-shadow: var(--shadow-md);
+    box-shadow: var(--shadow-hover);
     transform: translateY(-4px);
+    border-color: var(--color-primary);
 }
 
 /* Contenedor de la portada */

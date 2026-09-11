@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { CartContext } from "../context/CartContext";
+import { XIcon } from "./icons";
 import styles from "./CartDrawer.module.css";
 
 /**
@@ -40,7 +41,7 @@ function CartDrawer() {
                 <div className={styles.header}>
                     <h3 className={styles.title}>Tu carrito</h3>
                     <button className={styles.btnClose} onClick={closeCart} id="btn-close-cart" aria-label="Cerrar carrito">
-                        ✕
+                        <XIcon size={16} />
                     </button>
                 </div>
 

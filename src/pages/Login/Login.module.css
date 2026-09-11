@@ -11,15 +11,10 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(
-        145deg,
-        var(--color-primary) 0%,
-        var(--color-primary-hover) 50%,
-        #5C2420 100%
-    );
-    color: var(--color-on-primary);
+    background: var(--brand-panel-bg);
     position: relative;
     overflow: hidden;
+    border-right: var(--border-width) solid var(--color-border);
 }
 
 /* Textura sutil sobre el gradiente */
@@ -29,7 +24,7 @@
     inset: 0;
     background: radial-gradient(
         ellipse at 30% 80%,
-        rgba(181, 106, 42, 0.2) 0%,
+        var(--brand-panel-radial) 0%,
         transparent 60%
     );
 }
@@ -47,13 +42,15 @@
     font-weight: 700;
     line-height: 1;
     margin-bottom: var(--space-4);
-    letter-spacing: -1px;
-    color: var(--color-on-primary);
+    letter-spacing: 0.03em;
+    color: var(--brand-name-color);
+    text-shadow: var(--brand-name-glow);
 }
 
 .brandTagline {
     font-size: var(--fs-body);
     font-weight: var(--fw-regular);
+    color: var(--color-text);
     opacity: 0.85;
     max-width: 280px;
     margin: 0 auto;
@@ -135,7 +132,7 @@
 .alert {
     font-size: var(--fs-body-sm);
     color: var(--color-danger);
-    background-color: rgba(180, 35, 24, 0.06);
+    background-color: color-mix(in srgb, var(--color-danger) 16%, transparent);
     padding: var(--space-3) var(--space-4);
     border-radius: var(--radius-sm);
     border-left: 3px solid var(--color-danger);

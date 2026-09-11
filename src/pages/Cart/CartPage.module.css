@@ -197,7 +197,7 @@
 
 .btnRemove:hover {
     color: var(--color-danger);
-    background-color: rgba(180, 35, 24, 0.06);
+    background-color: color-mix(in srgb, var(--color-danger) 16%, transparent);
 }
 
 /* ---- Resumen ---- */
@@ -242,7 +242,7 @@
 .pointsHint {
     font-size: var(--fs-caption);
     color: var(--color-secondary);
-    background-color: rgba(181, 106, 42, 0.08);
+    background-color: color-mix(in srgb, var(--color-primary) 14%, transparent);
     padding: var(--space-2) var(--space-3);
     border-radius: var(--radius-sm);
 }
@@ -250,7 +250,7 @@
 .alert {
     font-size: var(--fs-body-sm);
     color: var(--color-danger);
-    background-color: rgba(180, 35, 24, 0.06);
+    background-color: color-mix(in srgb, var(--color-danger) 16%, transparent);
     padding: var(--space-3) var(--space-4);
     border-radius: var(--radius-sm);
     border-left: 3px solid var(--color-danger);
@@ -259,7 +259,7 @@
 .alertInfo {
     font-size: var(--fs-body-sm);
     color: var(--color-info);
-    background-color: rgba(47, 95, 122, 0.06);
+    background-color: color-mix(in srgb, var(--color-info) 16%, transparent);
     padding: var(--space-3) var(--space-4);
     border-radius: var(--radius-sm);
     border-left: 3px solid var(--color-info);

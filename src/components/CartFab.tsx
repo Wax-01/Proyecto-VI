@@ -1,5 +1,6 @@
 import { useContext } from "react";
 import { CartContext } from "../context/CartContext";
+import { ShoppingCartIcon } from "./icons";
 import styles from "./CartFab.module.css";
 
 /**
@@ -16,7 +17,7 @@ function CartFab() {
             id="cart-fab"
             aria-label="Abrir carrito de compras"
         >
-            <span aria-hidden="true">🛒</span>
+            <ShoppingCartIcon size={24} />
             {totalItems > 0 && <span className={styles.badge}>{totalItems}</span>}
         </button>
     );

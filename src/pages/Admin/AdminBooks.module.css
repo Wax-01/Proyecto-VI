@@ -221,7 +221,7 @@
 .msgOk {
     font-size: var(--fs-body-sm);
     color: var(--color-success);
-    background-color: rgba(46, 107, 79, 0.08);
+    background-color: color-mix(in srgb, var(--color-success) 16%, transparent);
     padding: var(--space-3) var(--space-4);
     border-radius: var(--radius-sm);
     border-left: 3px solid var(--color-success);
@@ -230,7 +230,7 @@
 .msgError {
     font-size: var(--fs-body-sm);
     color: var(--color-danger);
-    background-color: rgba(180, 35, 24, 0.06);
+    background-color: color-mix(in srgb, var(--color-danger) 16%, transparent);
     padding: var(--space-3) var(--space-4);
     border-radius: var(--radius-sm);
     border-left: 3px solid var(--color-danger);

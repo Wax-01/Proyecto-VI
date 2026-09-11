@@ -1,6 +1,8 @@
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/authcontext";
+import { ThemeContext } from "../context/ThemeContext";
+import { SunIcon, MoonIcon } from "./icons";
 import styles from "./NavBar.module.css";
 
 /**
@@ -13,6 +15,7 @@ import styles from "./NavBar.module.css";
 function NavBar() {
     const navigate = useNavigate();
     const { user, logout } = useContext(AuthContext);
+    const { theme, toggleTheme } = useContext(ThemeContext);
 
     function goToLogin() {
         navigate("/login");
@@ -43,6 +46,16 @@ function NavBar() {
                         id="nav-catalogo"
                     >
                         Catálogo
+                    </button>
+
+                    <button
+                        className={styles.btnTheme}
+                        onClick={toggleTheme}
+                        id="nav-theme-toggle"
+                        title={theme === "dark" ? "Cambiar a modo claro" : "Cambiar a modo oscuro"}
+                        aria-label={theme === "dark" ? "Cambiar a modo claro" : "Cambiar a modo oscuro"}
+                    >
+                        {theme === "dark" ? <SunIcon size={18} /> : <MoonIcon size={18} />}
                     </button>
 
                     {user ? (
