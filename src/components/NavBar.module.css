@@ -46,6 +46,9 @@
 }
 
 .navLink {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
     font-size: var(--fs-body-sm);
     font-weight: var(--fw-medium);
     color: var(--color-text-muted);
@@ -99,6 +102,12 @@
 .btnTheme:hover {
     border-color: var(--color-primary);
     transform: rotate(-8deg);
+}
+
+/* El sol (modo oscuro) usa el mismo dorado que títulos y botones,
+   para que se note sobre el fondo oscuro; el relleno del botón no cambia. */
+.sunIcon {
+    color: var(--color-primary);
 }
 
 /* Botón primario (terracota) */

@@ -62,14 +62,14 @@ function CartPage() {
                             Pagaste {precio(success.total)} y ganaste{" "}
                             <strong>{success.puntos_ganados} puntos</strong>.
                         </p>
-                        <button className={styles.btnPrimary} onClick={() => navigate("/home")} id="btn-back-to-catalog">
+                        <button className={styles.btnPrimary} onClick={() => navigate("/bhook")} id="btn-back-to-catalog">
                             Volver al catálogo
                         </button>
                     </div>
                 ) : items.length === 0 ? (
                     <div className={styles.empty}>
                         <p className={styles.emptyText}>Tu carrito está vacío.</p>
-                        <button className={styles.btnPrimary} onClick={() => navigate("/home")} id="btn-explore-catalog">
+                        <button className={styles.btnPrimary} onClick={() => navigate("/bhook")} id="btn-explore-catalog">
                             Explorar catálogo
                         </button>
                     </div>

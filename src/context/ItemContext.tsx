@@ -15,6 +15,7 @@ export interface Book {
     editorial: string | null;
     codigo_producto: string | null;
     año_publicacion: number | null;
+    nombres_alternativos: string[] | null;
 }
 
 interface ItemsContextProps {
@@ -23,9 +24,6 @@ interface ItemsContextProps {
     fetchBooks: () => Promise<void>;
     searchBooks: (word: string) => Promise<void>;
 }
-
-// URL base del backend API
-const API_BASE = "http://localhost:3000";
 
 export const ItemContext = createContext({} as ItemsContextProps);
 
@@ -40,7 +38,7 @@ export const ItemProvider = ({ children }: any) => {
     const fetchBooks = async () => {
         setIsLoading(true);
         try {
-            const response = await fetch(`${API_BASE}/api/items`);
+            const response = await fetch("/api/items");
             if (!response.ok) {
                 throw new Error(`Error HTTP: ${response.status}`);
             }
@@ -64,7 +62,7 @@ export const ItemProvider = ({ children }: any) => {
         }
         setIsLoading(true);
         try {
-            const response = await fetch(`${API_BASE}/api/items`);
+            const response = await fetch("/api/items");
             if (!response.ok) {
                 throw new Error(`Error HTTP: ${response.status}`);
             }

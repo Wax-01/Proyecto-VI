@@ -64,7 +64,7 @@ function AdminBooks() {
     }, [data, search]);
 
     if (!user) return <Navigate to="/login" replace />;
-    if (user.rol !== "admin") return <Navigate to="/home" replace />;
+    if (user.rol !== "admin") return <Navigate to="/bhook" replace />;
 
     function selectBook(book: Book) {
         setSelectedId(book.id);

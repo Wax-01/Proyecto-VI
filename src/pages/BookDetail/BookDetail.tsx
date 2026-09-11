@@ -3,6 +3,7 @@ import { useParams, Link, useNavigate } from "react-router-dom";
 import NavBar from "../../components/NavBar";
 import { ItemContext } from "../../context/ItemContext";
 import { CartContext } from "../../context/CartContext";
+import { ArrowLeftIcon } from "../../components/icons";
 import styles from "./BookDetail.module.css";
 
 /**
@@ -46,7 +47,7 @@ function BookDetail() {
                 <NavBar />
                 <main className={styles.main}>
                     <p className={styles.statusText}>No se encontró este libro.</p>
-                    <button className={styles.btnPrimary} onClick={() => navigate("/home")} id="btn-back-catalog">
+                    <button className={styles.btnPrimary} onClick={() => navigate("/bhook")} id="btn-back-catalog">
                         Volver al catálogo
                     </button>
                 </main>
@@ -61,8 +62,8 @@ function BookDetail() {
             <NavBar />
 
             <main className={styles.main}>
-                <Link to="/home" className={styles.backLink}>
-                    ← Volver al catálogo
+                <Link to="/bhook" className={styles.backLink}>
+                    <ArrowLeftIcon size={16} /> Volver al catálogo
                 </Link>
 
                 <div className={styles.layout}>

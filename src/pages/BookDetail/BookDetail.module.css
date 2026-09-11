@@ -22,7 +22,9 @@
 }
 
 .backLink {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
     font-size: var(--fs-body-sm);
     font-weight: var(--fw-medium);
     color: var(--color-text-muted);

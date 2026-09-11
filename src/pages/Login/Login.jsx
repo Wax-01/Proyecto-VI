@@ -31,7 +31,7 @@ function Login() {
         setLoading(false);
 
         if (success) {
-            navigate("/home");
+            navigate("/");
         } else {
             setWarning("Credenciales incorrectas. Intenta de nuevo.");
         }

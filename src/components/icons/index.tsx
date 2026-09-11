@@ -70,3 +70,74 @@ export function XIcon(props: IconProps) {
         </BaseIcon>
     );
 }
+
+export function HomeIcon(props: IconProps) {
+    return (
+        <BaseIcon {...props}>
+            <path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8" />
+            <path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+        </BaseIcon>
+    );
+}
+
+export function EggIcon(props: IconProps) {
+    return (
+        <BaseIcon {...props}>
+            <path d="M12 2C8 2 4 8 4 14a8 8 0 0 0 16 0c0-6-4-12-8-12" />
+        </BaseIcon>
+    );
+}
+
+export function BookOpenIcon(props: IconProps) {
+    return (
+        <BaseIcon {...props}>
+            <path d="M12 5v16" />
+            <path d="M20.001 19A2 2 0 0 0 22 17V5a2 2 0 0 0-1.999-2L16 3.002A5 5 0 0 0 12 5a5 5 0 0 0-4-2H4a2 2 0 0 0-2 2v12a2 2 0 0 0 1.999 2H8a5 5 0 0 1 4 2 5 5 0 0 1 4-2z" />
+        </BaseIcon>
+    );
+}
+
+export function CameraIcon(props: IconProps) {
+    return (
+        <BaseIcon {...props}>
+            <path d="M13.997 4a2 2 0 0 1 1.76 1.05l.486.9A2 2 0 0 0 18.003 7H20a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h1.997a2 2 0 0 0 1.759-1.048l.489-.904A2 2 0 0 1 10.004 4z" />
+            <circle cx="12" cy="13" r="3" />
+        </BaseIcon>
+    );
+}
+
+export function MicIcon(props: IconProps) {
+    return (
+        <BaseIcon {...props}>
+            <path d="M12 19v3" />
+            <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
+            <rect x="9" y="2" width="6" height="13" rx="3" />
+        </BaseIcon>
+    );
+}
+
+export function SquareIcon(props: IconProps) {
+    return (
+        <BaseIcon {...props}>
+            <rect width="18" height="18" x="3" y="3" rx="2" />
+        </BaseIcon>
+    );
+}
+
+export function ArrowLeftIcon(props: IconProps) {
+    return (
+        <BaseIcon {...props}>
+            <path d="m12 19-7-7 7-7" />
+            <path d="M19 12H5" />
+        </BaseIcon>
+    );
+}
+
+export function PlusIcon(props: IconProps) {
+    return (
+        <BaseIcon {...props}>
+            <path d="M5 12h14" />
+            <path d="M12 5v14" />
+        </BaseIcon>
+    );
+}

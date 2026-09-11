@@ -2,7 +2,7 @@ import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/authcontext";
 import { ThemeContext } from "../context/ThemeContext";
-import { SunIcon, MoonIcon } from "./icons";
+import { SunIcon, MoonIcon, HomeIcon, EggIcon } from "./icons";
 import styles from "./NavBar.module.css";
 
 /**
@@ -22,7 +22,11 @@ function NavBar() {
     }
 
     function goToHome() {
-        navigate("/home");
+        navigate("/bhook");
+    }
+
+    function goToHub() {
+        navigate("/");
     }
 
     async function handleLogout() {
@@ -42,10 +46,28 @@ function NavBar() {
                 <nav className={styles.nav}>
                     <button
                         className={styles.navLink}
+                        onClick={goToHub}
+                        id="nav-inicio"
+                        title="Volver al inicio"
+                    >
+                        <HomeIcon size={16} /> Inicio
+                    </button>
+
+                    <button
+                        className={styles.navLink}
                         onClick={goToHome}
                         id="nav-catalogo"
                     >
                         Catálogo
+                    </button>
+
+                    <button
+                        className={styles.navLink}
+                        onClick={() => navigate("/apodos")}
+                        id="nav-apodos"
+                        title="Apodos secretos de los libros"
+                    >
+                        <EggIcon size={16} /> Apodos
                     </button>
 
                     <button
@@ -55,7 +77,11 @@ function NavBar() {
                         title={theme === "dark" ? "Cambiar a modo claro" : "Cambiar a modo oscuro"}
                         aria-label={theme === "dark" ? "Cambiar a modo claro" : "Cambiar a modo oscuro"}
                     >
-                        {theme === "dark" ? <SunIcon size={18} /> : <MoonIcon size={18} />}
+                        {theme === "dark" ? (
+                            <SunIcon size={18} className={styles.sunIcon} />
+                        ) : (
+                            <MoonIcon size={18} />
+                        )}
                     </button>
 
                     {user ? (
