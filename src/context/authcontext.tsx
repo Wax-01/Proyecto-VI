@@ -40,7 +40,7 @@ const login = async (email: string, password: string) => {
     console.log("Login correcto, obteniendo perfil", { userId: data.user.id });
 
     const { data: profileData, error: profileError } = await supabase
-      .from('profiles')
+      .from('perfiles')
       .select('*')
       .eq('id', data.user.id)
       .single();
@@ -108,7 +108,7 @@ const login = async (email: string, password: string) => {
         const authUser = data?.user ?? null;
         if (authUser) {
           const { data: profileData, error: profileError } = await supabase
-            .from('profiles')
+            .from('perfiles')
             .select('*')
             .eq('id', authUser.id)
             .single();
@@ -138,7 +138,7 @@ const login = async (email: string, password: string) => {
       }
       try {
         const { data: profileData, error: profileError } = await supabase
-          .from('profiles')
+          .from('perfiles')
           .select('*')
           .eq('id', authUser.id)
           .single();

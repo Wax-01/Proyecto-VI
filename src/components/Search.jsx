@@ -5,7 +5,7 @@ function Search(){
     const context=useContext(ItemContext);
     const [word,setWord]=useState("");
     async function SearchBook(book) {
-        const Books= context.getSpecificbook(book);
+        const Books= await context.getSpecificbook(book);
         context.updateData(Books);
     };
 

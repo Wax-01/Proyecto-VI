@@ -18,7 +18,9 @@ function ListItems({ Books }: ListItemsProps){
     const [data,setData]= useState(Books);
     return data.map((book:Book)=>
         <>
-            <Item data={book}></Item>
+            <div className="ListItems">
+                <Item data={book}></Item>
+            </div>
         </>
     )
 }

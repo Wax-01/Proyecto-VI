@@ -28,7 +28,7 @@ button{
     border-radius: 10px;
 }
 button:hover{
-    background-color: rgb(16, 19, 18);
+    background-color: rgb(5, 6, 5);
     transition: 0.3s;
 }
 h1{
