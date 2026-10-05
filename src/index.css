@@ -23,14 +23,29 @@ html, body, #root {
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 /*shopping cart*/
-.car{
-    background-color: rgb(59, 59, 59);
-    display: flex;
-    gap: 10px;
-    flex-direction: column;
+.car {
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100%;
     width: 20vw;
-    color: beige;
+    min-width: 260px;
+
+    background-color: whitesmoke;
+    color: black;
+    display: flex;
+    flex-direction: column;
     align-items: center;
+    gap: 10px;
+    padding-top: 20px;
+
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+
+    z-index: 200;
+}
+.car.open {
+    transform: translateX(0);
 }
 .home{
     flex: 1;
@@ -102,4 +117,26 @@ html, body, #root {
     width: 100%;
     aspect-ratio: 2 / 3;  
     flex-shrink: 0;        
+}
+.cartButton {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 100;
+    width: 90px;
+    height: 70px;
+    background-color: black;
+}
+.cartOverlay {
+    position: fixed;
+    inset: 0;             
+    background: rgba(0,0,0,0.5);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    z-index: 199;
+}
+.cartOverlay.open {
+    opacity: 1;
+    pointer-events: all;  
 }

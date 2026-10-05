@@ -1,10 +1,20 @@
-import { Book } from "./listItems";
+import { useContext } from "react";
+import { CartContext } from "../context/CartContext";
+import { Book } from "./ListItems";
 interface ItemProps {
     data: Book;
+    CartItem: boolean;   
 }
 
-function Item({data}:ItemProps) {
-    console.log(data);
+function Item({ data, CartItem }: ItemProps) {
+    const context=useContext(CartContext);
+    function Add(){
+        context.CartReducer(data.id);
+
+    };
+    function remove() {
+        context.deleteElement(data.id);
+    };
     return ( 
         <div className="item">
             <div className="itemImg">
@@ -13,7 +23,12 @@ function Item({data}:ItemProps) {
             <div className="info">
                 <b>{data.nombre}</b>
                 <p>${data.precio}</p>
-                <button>Comprar</button>
+                {CartItem ?
+                    (<><button onClick={remove}>Eliminar</button></>)
+                    :(
+                    <button onClick={Add}>Comprar</button>
+                    )}
+                
             </div>
         </div>
     )

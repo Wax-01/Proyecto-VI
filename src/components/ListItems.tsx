@@ -19,7 +19,9 @@ function ListItems({ Books }: ListItemsProps){
     return data.map((book:Book)=>
         <>
             <div className="ListItems">
-                <Item data={book}></Item>
+                <Item data={book}
+                CartItem={false}
+                ></Item>
             </div>
         </>
     )
